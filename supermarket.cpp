@@ -38,11 +38,7 @@ class SuperMarket{
                temp = i;
             }
         }
-        cout<<"\nEnter 1 for deleting the product , 2 for the New quantity: ";
-        cin>>choose;
-        if(choose==1)
-        {
-       
+     
         if(flag==1){
             obj[temp].name = "";
         obj[temp].price = 0;
@@ -51,25 +47,7 @@ class SuperMarket{
         else{
             cout<<"\nNo product exists with that name\n";
         }
-        }
-        else
-        {
-            if(flag==1)
-            {
-                int newquant;
-                cout<<"\nEnter the new quantity: ";
-                cin>>newquant;
-                
-                obj[temp].quantity=newquant;
-                obj[temp].price=newquant*obj[position].quantity;
-             
-            }
-            else
-            {
-                cout<<"\nNo product exists with that name\n";
-            }
-        }
-        
+      
     }
 
     void orderSum(){
