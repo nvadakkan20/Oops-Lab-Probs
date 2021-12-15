@@ -1,330 +1,161 @@
 #include <iostream>
-
 using namespace std;
 
-class Product{
-
-    public:
-
-    string name;
-
-    int id;
-
-    double price;
-
-    int quantity;
-
-
+class Item
+{
+	public:
+	string name;
+	int price;
 };
 
-
-class SuperMarket{
-
-    private:
-
-    int position = 0;
-
-    int cartPosition = 0;
-
-    Product obj[10];
-
-    string cartName[10];
-
-    int cartQuantity[10];
-
-    double cartPrice[10];
-
-
-    void addCartProduct(){
-
-        string name;
-
-        int quantity,temp;
-
-        int flag = 0;
-
-        cout<<"\nEnter the name of the product you wanna add: ";
-
-        cin>>name;
-
-        cout<<"\nEnter product quantity: ";
-
-        cin>>quantity;
-
-        for(int i = 0;i<position;i++){
-
-            if(name == obj[i].name){
-
-               flag = 1;
-
-               temp = i;
-
-            }
-
-        }
-
-        if(flag==1&&quantity<obj[temp].quantity){
-
-            cartName[cartPosition]= name;
-
-            cartPrice[cartPosition] =  obj[temp].price;
-
-            cartQuantity[cartPosition] = quantity;
-
-            cartPosition++;
-
-        cout<<"\nProduct added successfully\n";
-
-        }
-
-        else if(quantity>obj[temp].quantity){
-
-            cout<<"\n Not enough stock";
-
-        }
-
-        else{
-
-            cout<<"\nNo product exists with that name\n";
-
-        }
-
-
-    }
-
-    void deleteCartProduct(){
-
-          string name;
-
-        int temp;
-
-        int flag = 0;
-
-        cout<<"\nEnter the name of the product you wanna delete: ";
-
-        cin>>name;
-
-        for(int i = 0;i<cartPosition;i++){
-
-            if(name == obj[i].name){
-
-               flag = 1;
-
-               temp = i;
-
-            }
-
-        }
-
-        if(flag==1){
-
-            cartName[temp] = "";
-
-        cartPrice[temp] = 0;
-
-        cartQuantity[temp] = 0;
-
-        cout<<"\nProduct deleted successfully\n";
-
-        }
-
-        else{
-
-            cout<<"\nNo product exists with that name\n";
-
-        }
-
-
-    }
-
-    void cartDetails(){
-
-        double sum=0;
-
-        for(int i = 0;i<cartPosition;i++){
-
-            sum+=cartPrice[i]*cartQuantity[i];
-
-            cout<<"\nCartProducts are: "<<cartName[i]<<"  ";
-
-        }
-
-        cout<<"\nOrder Sum: "<<sum;
-
-    }
-
-    public:
-
-    void addProduct(){
-
-        cout<<"Enter the name of the product: ";
-
-        cin>>obj[position].name;
-
-        cout<<"Enter the price: ";
-
-        cin>>obj[position].price;
-
-        cout<<"Enter quantity: ";
-
-        cin>>obj[position].quantity;
-
-        obj[position].id = position;
-
-        position++;
-
-    }
-
-     void cartTransactions(){
-
-        int choice;
-
-        while(choice<4){
-
-            cout<<"\nEnter 1 for adding product to cart\n2 for deleting\n3 for order details\n4 for placing order: ";
-
-            cin>>choice;
-
-            switch (choice)
-
-            {
-
-            case 1:
-
-                addCartProduct();
-
-                break;
-
-            case 2: 
-
-                 deleteCartProduct();
-
-                 break;
-
-            case 3: cartDetails();
-
-                    break;
-
-            case 4: cartDetails();
-
-                    cout<<"\nThanx for shopping with us\n";       
-
-            }
-
-        }
-
-    };
-
-
-    void deleteProduct(){
-
-        string name;
-
-        int temp;
-
-        int flag = 0;
-
-        cout<<"\nEnter the name of the product you wanna delete: ";
-
-        cin>>name;
-
-        for(int i = 0;i<10;i++){
-
-            if(name == obj[i].name){
-
-               flag = 1;
-
-               temp = i;
-
-            }
-
-        }
-
-        if(flag==1){
-
-            obj[temp].name = "";
-
-        obj[temp].price = 0;
-
-        cout<<"\nProduct deleted successfully\n";
-
-        }
-
-        else{
-
-            cout<<"\nNo product exists with that name\n";
-
-        }
-
-    }
-
-
-    void availableProducts(){
-
-        cout<<"Ordered items are: ";
-
-        for(int i = 0;i<position;i++){  
-
-           cout <<obj[i].name<<": "<<obj[i].quantity<<"   ";
-
-        }   
-
-    }
-
-   
-
-   
-
+class Supermarket
+{
+	int lim=0,i,temp, checker=0, transaction_count=0;
+	Item values[100];
+	
+	public:
+	void additems()
+	{
+		checker++;
+		temp=0;
+		cout << "Enter no of items you wish to enter\n";
+		cin >> temp;
+		lim += temp;
+		
+		for(i=lim-temp; i< lim; i++)
+		{
+			cout << "Enter name of item \n";
+			cin >> values[i].name;
+			
+			cout << "Enter price of item \n";
+			cin >> values[i].price;
+			cout << endl;
+		}
+		
+	}
+
+	void delete_item()
+	{
+		int index;
+		for(i=lim-temp; i< lim; i++)
+		{
+			cout << i+1 << ") " << values[i].name <<"\n";	
+		}
+
+		cout << "Enter index of item you wish to delete\n";
+		cin >> index;
+		if(index > 0 && index <=lim)
+		{
+			for(int i=index-1; i < lim-1; i++)
+			{
+				values[i].name = values[i+1].name;
+				values[i].price = values[i+1].price;
+			}
+			lim--;
+		}
+		else
+		{
+			cout << "invalid index\n";
+			delete_item();
+		}
+	}
+
+	void view_items()
+	{
+		if(checker==0)
+		{
+			cout << "no items to view, please add items\n";
+		}
+
+		else
+		{
+			for(i=0; i< lim; i++)
+			{
+				cout << "   " << "name" << "\t\t" << "price" <<"\n";
+				cout << i+1 << ") " << values[i].name << "\t\t" << values[i].price <<"\n";	
+			}
+			cout << endl;
+		}
+	}
+
+	void order_items()
+	{
+		int val,arr[50],coast=0,a;
+
+		if(checker==0)
+		{
+			cout << "no items to buy, please add items\n";
+		}
+
+		else
+		{
+			cout << "Enter how many items you wish to order\n";
+			cin >> val;
+
+			for(i=0; i< lim; i++)
+			{
+				cout << "   " << "name" << "\t\t" << "price" <<"\n";
+				cout << i+1 << ") " << values[i].name << "\t\t" << values[i].price <<"\n";	
+			}
+
+			cout << "Enter the index of items you wish to order\n";
+			for(int i=0; i< val; i++)
+			{
+				cin >> arr[i];
+			}
+
+			for(int i=0; i< val; i++)
+			{
+				coast += values[arr[i]-1].price;
+			}
+
+			cout << "Total values for your order = " << coast << endl;
+			transaction_count++;
+		}
+	}
+
+	void transactions()
+	{
+		cout << "\nNo of transactions done so far = " << transaction_count << endl;
+	}
 };
 
-int main(){
+int main()
+{
+	int option;
+	Supermarket shop1;
 
-    SuperMarket obj;
+	while(1)
+	{
+		cout << "Select options from below\n";
+	cout << "1) add items\n2) view items\n3) order item\n4) print no of transactions\n5)delete items\n6) exit\n";
+	cin >> option;
+	
+	switch(option)
+	{
+		case 1:
+		shop1.additems();
+		break;
+		case 2:
+		shop1.view_items();
+		break;
+		case 3:
+		shop1.order_items();
+		break;
+		case 4:
+		shop1.transactions();
+		break;
+		case 5:
+		shop1.delete_item();
+		break;
+		case 6:
+		exit(0);
+		break;
+		default:
+		cout << "invalid option try again\n";
 
-    int choice,transactions;
+	}
+	}
 
-    while(choice < 6){
-
-        cout<<"Enter 1 for adding a product\n2 for deleting a product \n3 for Available products \n4 to know number of transactions\n5 to Order a item\n6 to leave: ";
-
-        cin>>choice;
-
-        switch (choice)
-
-        {
-
-        case 1:
-
-            obj.addProduct();
-
-            break;
-
-        case 2: obj.deleteProduct();
-
-                break;
-
-        case 3: obj.availableProducts();
-
-                break;
-
-        case 4: cout<<"\nNumber of transactions done so far: "<<transactions;
-
-                break;
-
-        case 5: obj.cartTransactions();
-
-                 break;
-
-        case 6: cout<<"visit again\n";
-
-                break ;        
-
-        }
-
-        transactions++;
-
-        cout<<"\n______________________________\n\n";
-
-    }
-
+	return 0;
 }
